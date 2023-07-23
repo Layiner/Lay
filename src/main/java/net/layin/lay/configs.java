@@ -49,9 +49,12 @@ public class configs implements CommandExecutor {
             }
         }
     }
+
     /**
      * 保存单个配置文件
-     * @param fc 要保存的配置文件*/
+     *
+     * @param fc 要保存的配置文件
+     */
     public static void save(FileConfiguration fc) {
         try {
             fc.save(map.get(fc));

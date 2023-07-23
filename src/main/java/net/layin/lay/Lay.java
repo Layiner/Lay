@@ -3,6 +3,7 @@ package net.layin.lay;
 import net.layin.lay.command.login;
 import net.layin.lay.command.register;
 import net.layin.lay.command.tpa;
+import net.layin.lay.command.vip;
 import net.layin.lay.inventory.mainMenu;
 import net.layin.lay.inventory.menuName;
 import net.layin.lay.inventory.openMenu;
@@ -46,6 +47,8 @@ public final class Lay extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpa")).setExecutor(new tpa());
         Objects.requireNonNull(getCommand("shop")).setExecutor(new shop());
         Objects.requireNonNull(getCommand("land")).setExecutor(new land());
+        Objects.requireNonNull(getCommand("vip")).setExecutor(new vip());
+
         Objects.requireNonNull(getCommand("config")).setExecutor(new configs());
 
         registerListener(new chat());

@@ -28,11 +28,15 @@ public class shop implements TabExecutor {
             return true;
         }
         Player player = (Player) commandSender;
+        if (strings.length == 1) {
+            player.sendMessage(Component.text("Umm...你是不是输错了?"));
+            return true;
+        }
         if (strings.length == 2) {
             //TODO:添加一个set，让某一编号的商品变成另一个东西，然后把delete删掉，记得做Tab
             if (strings[0].equals("add")) {
                 if (player.isOp()) {
-                    if (player.getInventory().getItemInMainHand().equals(Material.AIR)) {
+                    if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
                         player.sendMessage(Component.text("你干啥呢,卖空气呢", NamedTextColor.YELLOW));
                         return true;
                     }
@@ -42,31 +46,11 @@ public class shop implements TabExecutor {
                         player.sendMessage(Component.text("售价必须输入数字!", NamedTextColor.RED));
                         return true;
                     }
-                    if (Integer.parseInt(strings[1]) >= 0) {
-                        menuName.SHOP_OUT_ITEM_INT++;
-                        configs.shop.set("out." + menuName.SHOP_OUT_ITEM_INT, player.getInventory().getItemInMainHand());
-                        configs.shop.set("out.coin." + menuName.SHOP_OUT_ITEM_INT, Integer.parseInt(strings[1]));
-                        configs.shop.set("out.int", menuName.SHOP_OUT_ITEM_INT);
-                        //ItemStack i = new ItemStack(Objects.requireNonNull(configs.shop.getItemStack("out")));
-                        //player.getInventory().addItem(i);
-                        player.sendMessage(Component.text("您已添加可购买商品", NamedTextColor.GREEN)
-                                .hoverEvent(HoverEvent.showText(Component.text(player.getInventory().getItemInMainHand().toString()))));
-                        return true;
-                    } else {
-                        menuName.SHOP_IN_ITEM_INT++;
-                        configs.shop.set("in." + menuName.SHOP_IN_ITEM_INT, player.getInventory().getItemInMainHand());
-                        configs.shop.set("in.coin." + menuName.SHOP_IN_ITEM_INT, Integer.parseInt(strings[1]));
-                        configs.shop.set("in.int", menuName.SHOP_IN_ITEM_INT);
-                        //ItemStack i = new ItemStack(Objects.requireNonNull(configs.shop.getItemStack("out")));
-                        //player.getInventory().addItem(i);
-                        player.sendMessage(Component.text("您已添加可兑换金币的商品", NamedTextColor.GREEN)
-                                .hoverEvent(HoverEvent.showText(Component.text(player.getInventory().getItemInMainHand().toString()))));
-                        return true;
-                    }
+                    addShopItem(Integer.parseInt(strings[1]), player);
                 } else {
                     commandSender.sendMessage(Component.text("你想啥呢,只有管理员才能用这指令", NamedTextColor.YELLOW));
-                    return true;
                 }
+                return true;
             }
             return true;
         }
@@ -136,5 +120,27 @@ public class shop implements TabExecutor {
             return null;
         }
         // /shop add 金币数量   /shop set 原商品编号 售价
+    }
+
+    private void addShopItem(int coin, Player player) {
+        if (coin >= 0) {
+            menuName.SHOP_OUT_ITEM_INT++;
+            configs.shop.set("out." + menuName.SHOP_OUT_ITEM_INT, player.getInventory().getItemInMainHand());
+            configs.shop.set("out.coin." + menuName.SHOP_OUT_ITEM_INT, coin);
+            configs.shop.set("out.int", menuName.SHOP_OUT_ITEM_INT);
+            //ItemStack i = new ItemStack(Objects.requireNonNull(configs.shop.getItemStack("out")));
+            //player.getInventory().addItem(i);
+            player.sendMessage(Component.text("您已添加可购买商品/", NamedTextColor.GREEN)
+                    .hoverEvent(HoverEvent.showText(Component.text(player.getInventory().getItemInMainHand().toString())))
+                    .append(Component.text("商品编号:" + menuName.SHOP_OUT_ITEM_INT)));
+        } else {
+            menuName.SHOP_IN_ITEM_INT++;
+            configs.shop.set("in." + menuName.SHOP_IN_ITEM_INT, player.getInventory().getItemInMainHand());
+            configs.shop.set("in.coin." + menuName.SHOP_IN_ITEM_INT, coin);
+            configs.shop.set("in.int", menuName.SHOP_IN_ITEM_INT);
+            player.sendMessage(Component.text("您已添加可兑换金币的商品/", NamedTextColor.GREEN)
+                    .hoverEvent(HoverEvent.showText(Component.text(player.getInventory().getItemInMainHand().toString())))
+                    .append(Component.text("商品编号:" + menuName.SHOP_IN_ITEM_INT)));
+        }
     }
 }

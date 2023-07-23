@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -258,7 +257,7 @@ public class mainMenu implements Listener {
                     List<Component> l;
                     try {
                         l = new ArrayList<>(Objects.requireNonNull(isM.lore()));
-                    } catch (NullPointerException zenmekeneng) {
+                    } catch (NullPointerException hehe) {
                         l = new ArrayList<>();
                     }
                     l.add(Component.text("可以兑换" + configs.shop.getInt("out.coin." + abc) + "个金币"));
@@ -306,9 +305,9 @@ public class mainMenu implements Listener {
                     }
                     //TODO:这里会删掉背包里所有相关的东西
                     //for获取玩家背包里的东西，检测到一个就松手
-                    for(int i = 0;i<=player.getInventory().getSize();i++){
-                        if(Objects.equals(player.getInventory().getItem(i), in)){
-                            player.getInventory().setItem(i,new ItemStack(Material.AIR));
+                    for (int i = 0; i <= player.getInventory().getSize(); i++) {
+                        if (Objects.equals(player.getInventory().getItem(i), in)) {
+                            player.getInventory().setItem(i, new ItemStack(Material.AIR));
                             break;
                         }
                     }

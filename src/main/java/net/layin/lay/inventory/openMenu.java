@@ -2,6 +2,7 @@ package net.layin.lay.inventory;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.layin.lay.configs;
 import net.layin.lay.six.nbt;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 
 public class openMenu implements CommandExecutor {
     @Override
@@ -74,6 +77,11 @@ public class openMenu implements CommandExecutor {
         headMeta.displayName(menuName.HEAD);
         headMeta.lore(menuName.HEAD_LORE);
         head.setItemMeta(headMeta);
+
+        ItemStack vip = new ItemStack(Material.DIAMOND);
+        ItemMeta vipMeta = vip.getItemMeta();
+        vipMeta.displayName(Component.text("会员系统"));
+        vipMeta.lore(Collections.singletonList(Component.text("当前状态:" + configs.userdata.get(player.getName() + ".vip"))));
 
         menuName.components.setItem(53, closeMenu);//关闭菜单
         menuName.components.setItem(4, board);//公告

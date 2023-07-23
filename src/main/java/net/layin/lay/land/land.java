@@ -11,35 +11,32 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static net.layin.lay.configs.userdata;
 import static net.layin.lay.inventory.menuName.online_player;
 
 public class land implements TabExecutor {
-    public static boolean deleteLand(Player p,String name){
+    public static boolean deleteLand(Player p, String name) {
         List<Map<?, ?>> lands = configs.land.getMapList("lands");
         //找到领地
         Map<?, ?> landSuitName = lands.stream().filter(m -> m.get("name").equals(name)).findFirst().orElse(null);
-        if(landSuitName==null){
-            p.sendMessage(Component.text("地皮不存在",NamedTextColor.RED));
+        if (landSuitName == null) {
+            p.sendMessage(Component.text("地皮不存在", NamedTextColor.RED));
             return true;
         }
-        if (!landSuitName.get("owner").equals(p.getUniqueId().toString())){
-            p.sendMessage(Component.text("仅主人可删除地皮",NamedTextColor.RED));
+        if (!landSuitName.get("owner").equals(p.getUniqueId().toString())) {
+            p.sendMessage(Component.text("仅主人可删除地皮", NamedTextColor.RED));
             return true;
-        }
-        else{
+        } else {
             lands.remove(landSuitName);
-            configs.land.set("lands",lands);
-            p.sendMessage(Component.text("删除成功",NamedTextColor.GREEN));
+            configs.land.set("lands", lands);
+            p.sendMessage(Component.text("删除成功", NamedTextColor.GREEN));
             return true;
         }
     }
+
     public static boolean createLand(Player p, String name) {
         //获取上限
         int limit;
@@ -244,39 +241,40 @@ public class land implements TabExecutor {
             if (strings[0].equals("create")) {
                 return createLand((Player) commandSender, strings[1]);
             }
-            if(strings[0].equals("delete")){
+            if (strings[0].equals("delete")) {
                 return deleteLand((Player) commandSender, strings[1]);
             }
         }
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("create", "delete", "setPermissions","askPermissions","goto");
+            return Arrays.asList("create", "delete", "setPermissions", "askPermissions", "goto");
         }
         if (args.length == 2) {
             if (args[0].equals("create")) {
-                return Arrays.asList("要创建的地皮名");
+                return Collections.singletonList("<地皮名称>");
             }
             if (args[0].equals("delete")) {
-                return Arrays.asList("要删除的地皮名");
+                return Collections.singletonList("<地皮名称>");
             }
             if (args[0].equals("setPermissions")) {
-                return Arrays.asList("要给予权限的地皮名");
+                return Collections.singletonList("<地皮名称>");
             }
-            if(args[0].equals("askPermissions")){
-                return Arrays.asList("要请求权限的地皮名");
+            if (args[0].equals("askPermissions")) {
+                return Collections.singletonList("<地皮名称>");
             }
-            if(args[0].equals("goto")){
-                return Arrays.asList("要去往的地皮名,需"+configs.land.getString(permissionsNames.ENTER));
+            if (args[0].equals("goto")) {
+                return Collections.singletonList("要去往的地皮名,需" + configs.land.getString(permissionsNames.ENTER));
             }
         }
         if (args.length == 3) {
             if (args[0].equals("setPermissions")) {
                 return online_player;
             }
-            if(args[0].equals("askPermissions")){
+            if (args[0].equals("askPermissions")) {
                 return Arrays.asList(permissionsNames.ENTER, permissionsNames.INTERACT, permissionsNames.HURT);
             }
         }

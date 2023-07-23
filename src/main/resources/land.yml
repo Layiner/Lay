@@ -1,0 +1,38 @@
+limits: #最大地皮数
+  common: 1
+  gold: 2
+  diamond: 3
+#地皮设置
+default:
+  high: 50 #地皮高度
+  under: 3 #地皮地下部分所占比例(x/10)
+  #默认中心点到边界距离
+  size:
+    common: 30
+    gold: 70
+    diamond: 110
+#权限显示名
+permissions:
+  EnterPermission: 通行权
+  InteractPermission: 交互,拆建权
+  HurtPermission: 攻击权
+
+#格式设计
+#lands:
+#  -
+#    name:"kunLand" 地皮名
+#    owner:某玩家UUID
+#    x:0 中心坐标
+#    y:50
+#    z:100
+#    size:200 地皮中心到边界距离
+#    permissions:
+#      EnterPermission:    进入权限
+#        -有该权限的玩家A
+#        -...玩家B
+#      InteractPermission:   交互权限,拆建权限
+#        -A
+#        -B
+#      HurtPermission:    攻击权限
+#        -A
+#        -B

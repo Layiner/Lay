@@ -1,0 +1,27 @@
+name: Lay
+version: '${project.version}'
+main: net.layin.lay.Lay
+api-version: '1.20'
+author: Layin Studio
+website: https://afdian.net/a/layiner
+commands:
+  login:
+    description: 登录
+  register:
+    description: 注册
+  menu:
+    description: 打开菜单
+  tpa:
+    description: 玩家间传送
+  shop:
+    description: 打开商店
+  land:
+    description: 地皮相关操作
+    usage: |
+      /land create land_name 创建名为land_name的地皮
+      /land delete land_name 删除属于自己的名为land_name的地皮
+      /land setPermissions land_name permissions player true/false 设置player在land_name地皮的permission权限
+      /land askPermissions land_name permissions 向land_name地皮的主人要求permission权限
+      /land goto land_name 去往xx地皮的中心,需要EnterPermission权限
+  config:
+    description: 保存或加载配置文件，用于调试

@@ -1,6 +1,6 @@
 # Lay
 
-![概览图](https://github.com/Layiner/Lay/blob/main/p6.png)
+![概览图](https://pic1.afdiancdn.com/user/3a611556114f11eca47d52540025c377/common/ccdd80a564da2254bfe5ffe85a230a90_w1600_h900_s1409.png?imageView2/1/w/1500/h/400)
 
 欢迎各位大佬前来考古φ(*￣0￣)
 

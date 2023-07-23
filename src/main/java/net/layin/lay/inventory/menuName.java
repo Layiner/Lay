@@ -13,7 +13,7 @@ public class menuName {
     public static final Component TITLE = Component.text("菜单》这是一切的起源", NamedTextColor.DARK_PURPLE);
     public static final Component TPA_TITLE = Component.text("传送功能》玩家列表", NamedTextColor.DARK_PURPLE);
     public static final Component SHOP_TITLE = Component.text("商店》点击商品即可交易!", NamedTextColor.DARK_PURPLE);
-
+    public static final Component VIP_TITLE = Component.text("会员系统",NamedTextColor.DARK_PURPLE);
 
     public static final Component CLOSE_MENU = Component.text("关闭菜单", NamedTextColor.WHITE);
     public static final Component BOARD = Component.text("公告", NamedTextColor.RED);

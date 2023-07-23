@@ -17,9 +17,10 @@ import java.util.Map;
 public class configs implements CommandExecutor {
     //针对已经公开的源码阅读者，不要问为什么要这样做
     private static Map<FileConfiguration, File> map = new HashMap<>();
-    public static FileConfiguration userdata = getConfiguration("userdata.yml");
-    public static FileConfiguration land = getConfiguration("land.yml");
-    public static FileConfiguration shop = getConfiguration("shop.yml");
+    public static FileConfiguration userdata ;
+    public static FileConfiguration land ;
+    public static FileConfiguration shop ;
+    public static FileConfiguration datau;
 
     /**
      * 加载配置文件
@@ -71,6 +72,7 @@ public class configs implements CommandExecutor {
         userdata = getConfiguration("userdata.yml");
         shop = getConfiguration("shop.yml");
         land = getConfiguration("land.yml");
+        datau = getConfiguration("datau.yml");
     }
 
     @Override

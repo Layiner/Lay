@@ -31,7 +31,6 @@ public final class Lay extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        menuName.SHOP_OUT_ITEM_INT = configs.shop.getInt("out.int");
 
         //查看玩家登录事件的监听器请移步listener->fl.java
 

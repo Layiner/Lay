@@ -202,6 +202,11 @@ public class mainMenu implements Listener {
                 player.performCommand("shop");
                 return;
             }//商店
+            if (e.getRawSlot()==15){
+                player.closeInventory();
+                player.performCommand("vip");
+                return;
+            }
         }
         if (inv.title().equals(menuName.TPA_TITLE)) {
             e.setCancelled(true);
@@ -212,6 +217,43 @@ public class mainMenu implements Listener {
             //不得已使用弃用方法，不然好麻烦
             player.closeInventory();
             return;
+        }
+        if (inv.title().equals(menuName.VIP_TITLE)){
+            e.setCancelled(true);
+            if (e.getRawSlot() == 8) {
+                player.closeInventory();
+                return;
+            }
+            if (e.getRawSlot()==3){
+                if (configs.userdata.get(player.getName()+".vip").equals("gold")|configs.userdata.get(player.getName()+".vip").equals("diamond")){
+                    player.closeInventory();
+                    player.sendMessage(Component.text("您已经有该会员了!得了,别在这转了",NamedTextColor.GREEN));
+                    return;
+                }
+                if (configs.userdata.getInt(player.getName()+".coin")>=configs.datau.getInt("vip.gold")){
+                    configs.userdata.set(player.getName()+".vip","gold");
+                    player.closeInventory();
+                    player.sendMessage(Component.text("OK!您已获得黄金会员!",NamedTextColor.GREEN));
+                    return;
+                }
+                player.closeInventory();
+                player.sendMessage(Component.text("金币不足!",NamedTextColor.YELLOW));
+            }
+            if (e.getRawSlot()==5){
+                if (configs.userdata.get(player.getName()+".vip").equals("diamond")){
+                    player.closeInventory();
+                    player.sendMessage(Component.text("您已经有该会员了!得了,别在这转了",NamedTextColor.GREEN));
+                    return;
+                }
+                if (configs.userdata.getInt(player.getName()+".coin")>=configs.datau.getInt("vip.diamond")){
+                    configs.userdata.set(player.getName()+".vip","diamond");
+                    player.closeInventory();
+                    player.sendMessage(Component.text("OK!您已获得钻石会员!",NamedTextColor.GREEN));
+                    return;
+                }
+                player.closeInventory();
+                player.sendMessage(Component.text("金币不足!",NamedTextColor.YELLOW));
+            }
         }
         if (inv.title().equals(menuName.SHOP_TITLE)) {
             e.setCancelled(true);
@@ -224,6 +266,9 @@ public class mainMenu implements Listener {
                 isOut = 1;
                 for (int u = 9; u <= 44; u++) {
                     e.getInventory().setItem(u, new ItemStack(Material.AIR));
+                }
+                if (menuName.SHOP_OUT_ITEM_INT==0){
+                    return;
                 }
                 //备用方法：将in以map形式读出来（还未实践，也不想实践）
                 for (int item = 1; item <= menuName.SHOP_OUT_ITEM_INT; item++) {
@@ -251,6 +296,9 @@ public class mainMenu implements Listener {
                 for (int u = 9; u <= 44; u++) {
                     e.getInventory().setItem(u, new ItemStack(Material.AIR));
                 }
+                if (menuName.SHOP_IN_ITEM_INT==0){
+                    return;
+                }
                 for (int abc = 1; abc <= menuName.SHOP_OUT_ITEM_INT; abc++) {
                     ItemStack is = new ItemStack(Objects.requireNonNull(configs.shop.getItemStack("in." + abc)));
                     ItemMeta isM = is.getItemMeta();
@@ -269,7 +317,7 @@ public class mainMenu implements Listener {
             }
             if (e.getRawSlot() > 8 && e.getRawSlot() < 45) {
                 if (isOut == 1) {
-                    if (Objects.equals(e.getCurrentItem(), Material.AIR)) {
+                    if (Objects.requireNonNull(e.getCurrentItem()).getType()==Material.AIR) {
                         return;
                     }
                     int coin = configs.userdata.getInt(player.getName() + ".coin");
@@ -293,7 +341,7 @@ public class mainMenu implements Listener {
                     return;
                 }
                 if (isOut == 2) {
-                    if (e.getCurrentItem().equals(Material.AIR)) {
+                    if (e.getCurrentItem().getType()==Material.AIR) {
                         return;
                     }
                     int coin = configs.userdata.getInt(player.getName() + ".coin");

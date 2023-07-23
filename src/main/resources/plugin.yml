@@ -36,6 +36,7 @@ commands:
       /land goto <地皮名称> 去往<地皮名称>的中心,需要EnterPermission权限
   vip:
     description: 设置VIP等级
-    usage: /vip set <用户名> <类别> 仅管理员可操作
+    usage: /vip [可以无参数] 
+                set <用户名> <类别> 仅管理员可操作
   config:
     description: 保存或加载配置文件，用于调试

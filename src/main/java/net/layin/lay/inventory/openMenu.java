@@ -80,8 +80,9 @@ public class openMenu implements CommandExecutor {
 
         ItemStack vip = new ItemStack(Material.DIAMOND);
         ItemMeta vipMeta = vip.getItemMeta();
-        vipMeta.displayName(Component.text("会员系统"));
-        vipMeta.lore(Collections.singletonList(Component.text("当前状态:" + configs.userdata.get(player.getName() + ".vip"))));
+        vipMeta.displayName(Component.text("会员系统",NamedTextColor.RED));
+        vipMeta.lore(Collections.singletonList(Component.text("当前状态:" + configs.userdata.get(player.getName() + ".vip"),NamedTextColor.GREEN)));
+        vip.setItemMeta(vipMeta);
 
         menuName.components.setItem(53, closeMenu);//关闭菜单
         menuName.components.setItem(4, board);//公告
@@ -90,6 +91,7 @@ public class openMenu implements CommandExecutor {
         menuName.components.setItem(20, survivalZone2);//生存二区
         menuName.components.setItem(31, shop);//商店
         menuName.components.setItem(13, head);//玩家信息
+        menuName.components.setItem(15, vip);//会员系统
 
 
 

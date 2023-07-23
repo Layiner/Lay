@@ -1,12 +1,12 @@
 # Lay
 
-![概览图](https://github.com/Layiner/Lay/blob/main/p6.png)
+![概览图](https://pic1.afdiancdn.com/user/3a611556114f11eca47d52540025c377/common/ccdd80a564da2254bfe5ffe85a230a90_w1600_h900_s1409.png?imageView2/1/w/1500/h/400)
 
 欢迎各位大佬前来考古φ(*￣0￣)
 
 本插件适用于我的世界1.20版本（及以上）PAPER端（包括SPIGOT端），本插件完全免费
 
-<u>提示：本插件的源码提供学习目的使用</u>
+<u>提示：本插件的源码特别提供学习目的使用</u>
 
 ## 特性
 
@@ -61,6 +61,7 @@
 /shop [可以无参数]		        #特别提醒：商品编号请前往shop.yml查看
       add <售价>  			#售价若填负数的话则是兑换货币
       set <原商品编号> <现售价>		#add和set仅管理员(OP)可执行，必须手持物品输入指令
+/vip <set> <用户名> <类型>
 ```
 
 ## 如何贡献

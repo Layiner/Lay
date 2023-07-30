@@ -52,8 +52,10 @@
 /login <密码>
 /land create <地皮名称>
       delete <地皮名称>
-      askpermissions <权限代号>
-      setpermissions <权限代号>
+      askPermissions <地皮名称> <权限代号>
+      setPermissions <地皮名称> <玩家名> <权限代号> <给予(true)/移除(false)>
+      goto <地皮名称>
+      extend <地皮名称> <扩展大小>
 /menu
 /tpa <玩家名称>
      deny

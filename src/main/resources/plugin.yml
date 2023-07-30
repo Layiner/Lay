@@ -31,9 +31,10 @@ commands:
     usage: |
       /land create <地皮名称> 创建一个地皮并命名
       /land delete <地皮名称> 删除属于自己的名为<地皮名称>的地皮
-      /land setPermissions <地皮名称> permissions player true/false 设置player在<地皮名称>地皮的permission权限
-      /land askPermissions <地皮名称> permissions 向<地皮名称>地皮的主人要求permission权限
+      /land setPermissions <地皮名称> <玩家名> <权限代号> <给予(true)/移除(false)> 设置<玩家名>在<地皮名称>地皮的<权限代号>权限
+      /land askPermissions <地皮名称> <权限代号> 向<地皮名称>地皮的主人要求<权限代号>权限
       /land goto <地皮名称> 去往<地皮名称>的中心,需要EnterPermission权限
+      /land extend <地皮名称> <扩展大小> 扩展<地皮名称>的边界到中心点距离<扩展大小>格
   vip:
     description: 设置VIP等级
     usage: /vip [可以无参数] 

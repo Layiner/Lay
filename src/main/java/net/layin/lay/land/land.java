@@ -3,6 +3,7 @@ package net.layin.lay.land;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.layin.lay.configs;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -104,7 +105,63 @@ public class land implements TabExecutor {
             }
         }
     }
-
+    /**
+     * 给予或删除某玩家在某地皮的权限
+     * @param sender 操作者
+     * @param name  地皮名
+     * @param permissionName 权限代号
+     * @param receiver 被给予/删除权限的玩家
+     * @param giveOrRemove 给予(true)/移除(false)
+     * @return 运行是否成功(怎么可能不成功?!)*/
+    public static boolean setPermission(Player sender,String name,String permissionName,Player receiver,boolean giveOrRemove){
+        List<Map<?, ?>> lands = configs.land.getMapList("lands");
+        //找到领地
+        Map<?, ?> landSuitName = lands.stream().filter(m -> m.get("name").equals(name)).findFirst().orElse(null);
+        if (landSuitName == null) {
+            sender.sendMessage(Component.text("地皮不存在", NamedTextColor.RED));
+            return true;
+        }
+        if (!landSuitName.get("owner").equals(sender.getUniqueId().toString())) {
+            sender.sendMessage(Component.text("仅主人可给予权限", NamedTextColor.RED));
+            return true;
+        }
+        Map<String,List<String>>permissions= (Map<String, List<String>>) landSuitName.get("permissions");
+        List<String> permission=permissions.get(permissionName);
+        if (permission == null) {
+            sender.sendMessage(Component.text("权限不存在", NamedTextColor.RED));
+            return true;
+        }
+        if (giveOrRemove){
+            if(permission.contains(receiver.getUniqueId().toString())){
+                sender.sendMessage(Component.text("该玩家已拥有权限", NamedTextColor.RED));
+                return true;
+            }
+            permission.add(receiver.getUniqueId().toString());
+            configs.land.set("land",lands);
+            sender.sendMessage(Component.text("给予成功", NamedTextColor.GREEN));
+            if(sender.getUniqueId().equals(receiver.getUniqueId())){
+                sender.sendMessage(Component.text("不过为什么你自己没有权限=(,你们服主干什么破事了?!", NamedTextColor.YELLOW));
+            }else{
+                receiver.sendMessage(Component.text(sender.getName()+"已给予你TA"+name+"地皮的"+configs.land.getString("permissions."+permissionName), NamedTextColor.GREEN));
+            }
+            return true;
+        }
+        else{
+            if(!permission.contains(receiver.getUniqueId().toString())){
+                sender.sendMessage(Component.text("该玩家本就没有权限", NamedTextColor.RED));
+                return true;
+            }
+            if(sender.getUniqueId().equals(receiver.getUniqueId())){
+                sender.sendMessage(Component.text("别删自己的权限啊!(虽然真删了也不会有什么事)", NamedTextColor.RED));
+                return true;
+            }
+            permission.remove(receiver.getUniqueId().toString());
+            configs.land.set("land",lands);
+            sender.sendMessage(Component.text("删除成功", NamedTextColor.GREEN));
+            receiver.sendMessage(Component.text(sender.getName()+"已删除你TA"+name+"地皮的"+configs.land.getString("permissions."+permissionName), NamedTextColor.RED));
+            return true;
+        }
+    }
     /**
      * 获取一个坐标所在领地
      *
@@ -245,6 +302,21 @@ public class land implements TabExecutor {
                 return deleteLand((Player) commandSender, strings[1]);
             }
         }
+        if (strings.length ==4){
+            if (strings[0].equals("setPermissions")){
+                if (Arrays.asList("true", "false").contains(strings[3])){
+                    Player receiver =Bukkit.getPlayer(strings[1]);
+                    if(receiver==null){
+                        commandSender.sendMessage(Component.text("查无此人",NamedTextColor.RED));
+                        return true;
+                    }else if(!Arrays.asList(permissionsNames.ENTER, permissionsNames.INTERACT, permissionsNames.HURT).contains(strings[2])){
+                        commandSender.sendMessage(Component.text("不存在此权限",NamedTextColor.RED));
+                        return true;
+                    }
+                    return setPermission((Player)commandSender,strings[0],strings[2],receiver,Boolean.getBoolean(strings[3]));
+                }
+            }
+        }
         return false;
     }
 
@@ -269,6 +341,9 @@ public class land implements TabExecutor {
             if (args[0].equals("goto")) {
                 return Collections.singletonList("要去往的地皮名,需" + configs.land.getString(permissionsNames.ENTER));
             }
+            if (args[0].equals("extend")){
+                return Collections.singletonList("<地皮名称>");
+            }
         }
         if (args.length == 3) {
             if (args[0].equals("setPermissions")) {
@@ -276,6 +351,9 @@ public class land implements TabExecutor {
             }
             if (args[0].equals("askPermissions")) {
                 return Arrays.asList(permissionsNames.ENTER, permissionsNames.INTERACT, permissionsNames.HURT);
+            }
+            if (args[0].equals("extend")){
+                return Collections.singletonList("<扩展大小>");
             }
         }
         if (args.length == 4) {

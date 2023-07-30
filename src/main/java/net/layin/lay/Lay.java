@@ -17,6 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
+import static net.layin.lay.configs.getConfiguration;
+
 public final class Lay extends JavaPlugin {
     private static Lay instance;
 
@@ -39,6 +41,13 @@ public final class Lay extends JavaPlugin {
         this.saveResource("board.yml", false);
         this.saveResource("land.yml", false);
         this.saveResource("shop.yml", false);
+
+        configs.userdata = getConfiguration("userdata.yml");
+        configs.land = getConfiguration("land.yml");
+        configs.shop = getConfiguration("shop.yml");
+        configs.datau = getConfiguration("datau.yml");
+        menuName.SHOP_OUT_ITEM_INT = configs.shop.getInt("out.int");
+        menuName.SHOP_IN_ITEM_INT=configs.shop.getInt("in.int");
 
         Objects.requireNonNull(getCommand("login")).setExecutor(new login());
         Objects.requireNonNull(getCommand("register")).setExecutor(new register());

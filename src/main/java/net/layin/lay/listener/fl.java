@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.layin.lay.FirstLogin;
 import net.layin.lay.Lay;
+import net.layin.lay.configs;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -50,14 +51,10 @@ public class fl implements Listener {
             if (e.getRawSlot() == 10) {
                 //TODO:未来要做数据库
                 player.closeInventory();
-                File duF = new File(Lay.getPlugin(Lay.class).getDataFolder(), "datau.yml");
-                FileConfiguration du = YamlConfiguration.loadConfiguration(duF);
-                du.set("w", "yml");
-                try {
-                    du.save(duF);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                //File duF = new File(Lay.getPlugin(Lay.class).getDataFolder(), "datau.yml");
+                //FileConfiguration du = YamlConfiguration.loadConfiguration(duF);
+                configs.datau.set("w", "yml");
+                player.closeInventory();
             }
         }
     }
@@ -75,8 +72,8 @@ public class fl implements Listener {
         Player player = event.getPlayer();
         player.setGameMode(GameMode.ADVENTURE);
 
-        FileConfiguration du = YamlConfiguration.loadConfiguration(new File(net.layin.lay.Lay.getPlugin(net.layin.lay.Lay.class).getDataFolder(), "datau.yml"));
-        if (du.get("w") == null) {
+        //FileConfiguration du = YamlConfiguration.loadConfiguration(new File(net.layin.lay.Lay.getPlugin(net.layin.lay.Lay.class).getDataFolder(), "datau.yml"));
+        if (configs.datau.get("w") == null) {
             new FirstLogin().gui(player);
             //TODO:看这就知道了
             player.sendMessage(Component.text("请在聊天框输入", NamedTextColor.RED)

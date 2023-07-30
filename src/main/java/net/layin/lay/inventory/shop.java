@@ -33,7 +33,6 @@ public class shop implements TabExecutor {
             return true;
         }
         if (strings.length == 2) {
-            //TODO:添加一个set，让某一编号的商品变成另一个东西，然后把delete删掉，记得做Tab
             if (strings[0].equals("add")) {
                 if (player.isOp()) {
                     if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
@@ -42,8 +41,14 @@ public class shop implements TabExecutor {
                     }
                     try {
                         Integer.parseInt(strings[1]);
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
                         player.sendMessage(Component.text("售价必须输入数字!", NamedTextColor.RED));
+                        return true;
+                    }
+                    if (menuName.SHOP_OUT_ITEM_INT>=36|menuName.SHOP_IN_ITEM_INT>=36){
+                        player.sendMessage(Component.text("商品已经满了!")
+                                .append(Component.newline())
+                                .append(Component.text("您可以等待更新换页功能(很久很久),也可以使用指令替换一些商品")));
                         return true;
                     }
                     addShopItem(Integer.parseInt(strings[1]), player);
@@ -53,6 +58,33 @@ public class shop implements TabExecutor {
                 return true;
             }
             return true;
+        }
+        if (strings.length==3){
+            if (strings[0].equals("set")){
+                try {
+                    Integer.parseInt(strings[1]);
+                    Integer.parseInt(strings[2]);
+                }catch (NumberFormatException nbnbnb){
+                    return true;
+                }
+                int bianHao = Integer.parseInt(strings[1]);//原商品编号
+                int shouJia = Integer.parseInt(strings[2]);//现售价
+                if (shouJia>=0){
+                    if (bianHao<0|bianHao>menuName.SHOP_OUT_ITEM_INT){
+                        return true;
+                    }
+                    configs.shop.set("out."+bianHao,player.getInventory().getItemInMainHand());
+                    configs.shop.set("out.coin."+bianHao,shouJia);
+                    return true;
+                } else {
+                    if (bianHao<0|bianHao>menuName.SHOP_IN_ITEM_INT){
+                        return true;
+                    }
+                    configs.shop.set("in."+bianHao,player.getInventory().getItemInMainHand());
+                    configs.shop.set("in.coin."+bianHao,shouJia);
+                    return true;
+                }
+            }
         }
         Inventory shop = Bukkit.createInventory(player, 6 * 9, menuName.SHOP_TITLE);
         /*
@@ -130,7 +162,7 @@ public class shop implements TabExecutor {
             configs.shop.set("out.int", menuName.SHOP_OUT_ITEM_INT);
             //ItemStack i = new ItemStack(Objects.requireNonNull(configs.shop.getItemStack("out")));
             //player.getInventory().addItem(i);
-            player.sendMessage(Component.text("您已添加可购买商品/", NamedTextColor.GREEN)
+            player.sendMessage(Component.text("您已添加可购买商品;", NamedTextColor.GREEN)
                     .hoverEvent(HoverEvent.showText(Component.text(player.getInventory().getItemInMainHand().toString())))
                     .append(Component.text("商品编号:" + menuName.SHOP_OUT_ITEM_INT)));
         } else {
@@ -138,7 +170,7 @@ public class shop implements TabExecutor {
             configs.shop.set("in." + menuName.SHOP_IN_ITEM_INT, player.getInventory().getItemInMainHand());
             configs.shop.set("in.coin." + menuName.SHOP_IN_ITEM_INT, coin);
             configs.shop.set("in.int", menuName.SHOP_IN_ITEM_INT);
-            player.sendMessage(Component.text("您已添加可兑换金币的商品/", NamedTextColor.GREEN)
+            player.sendMessage(Component.text("您已添加可兑换金币的商品;", NamedTextColor.GREEN)
                     .hoverEvent(HoverEvent.showText(Component.text(player.getInventory().getItemInMainHand().toString())))
                     .append(Component.text("商品编号:" + menuName.SHOP_IN_ITEM_INT)));
         }

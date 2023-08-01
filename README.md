@@ -10,7 +10,9 @@
 
 ## 特性
 
-## 系统要求
+可能会有很多BUG
+
+## 配置要求
 
 - Minecraft服务器端：PAPER或者SPIGOT
 
